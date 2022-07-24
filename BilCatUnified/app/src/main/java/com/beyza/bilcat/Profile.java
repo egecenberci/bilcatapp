@@ -61,11 +61,27 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) { goEditProfile(); }
         });
-        Button catlistButton = findViewById(R.id.catlistButton);
+        Button catlistButton = findViewById(R.id.catListButton2);
         catlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goCatsActivity();
+            }
+        });
+
+        Button mapButton = findViewById(R.id.catListButton2);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goMap();
+            }
+        });
+
+        Button profileButton = findViewById(R.id.profileButton2);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goProfile();
             }
         });
 
@@ -85,6 +101,18 @@ public class Profile extends AppCompatActivity {
     private void goMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    private void goMap(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void goProfile() {
+        Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+        finish();
     }
 
 }

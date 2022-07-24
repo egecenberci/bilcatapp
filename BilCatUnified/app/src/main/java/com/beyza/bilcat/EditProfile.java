@@ -9,21 +9,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
 public class EditProfile extends AppCompatActivity {
@@ -74,7 +68,7 @@ public class EditProfile extends AppCompatActivity {
                 goMainActivity();
             }
         });
-        Button catlistButton = findViewById(R.id.catlistButton);
+        Button catlistButton = findViewById(R.id.catListButton2);
         catlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,21 +76,29 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        /*Button catsButton = findViewById(R.id.belowCatsButton);
-        catsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goCatList();
-            }
-        });*/
-
-        /*Button mapButton = findViewById(R.id.belowMapButton);
+        Button mapButton = findViewById(R.id.generalMapButton3);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goMap();
             }
-        });*/
+        });
+
+        Button discardChanges = findViewById(R.id.discardChangesButton);
+        discardChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goProfile();
+            }
+        });
+
+        Button profileButton = findViewById(R.id.profileButton3);
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goProfile();
+            }
+        });
 
 
 
@@ -140,25 +142,23 @@ public class EditProfile extends AppCompatActivity {
     private void goMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
     private void goCatsActivity(){
         Intent intent = new Intent(this, CatList.class);
         startActivity(intent);
+        finish();
     }
 
-
-    /*public void goCatList(){
-        Intent intent = new Intent(this, CatList.class);
+    private void goMap(){
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
-    }*/
-
-    /*public void goMap(){
-        Intent intent = new Intent(this, Map.class);
-        startActivity(intent);
-    }*/
+        finish();
+    }
 
     private void goProfile() {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
+        finish();
     }
 }
