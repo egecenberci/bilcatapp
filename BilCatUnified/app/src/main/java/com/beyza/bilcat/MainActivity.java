@@ -53,6 +53,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button generalMapButton = findViewById(R.id.generalMapButton);
+        generalMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayGeneralMap();
+            }
+        });
+
     }
 
     private void logoutUser(){
@@ -64,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayGeneralMap(){
         //TODO:switch the page
+        Intent intent = new Intent(this,MapsActivity.class);
+        startActivity(intent);
     }
 
     private void displayCatList(){

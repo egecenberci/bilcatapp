@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User/Documents/GitHub/CS-102_Project-BILCAT/bilcatapp/BilCatUnified/app/src/main/res/layout/activity_edit_profile.xml" value="0.1796875" />
+        <entry key="..\:/Users/User/Documents/GitHub/CS-102_Project-BILCAT/bilcatapp/BilCatUnified/app/src/main/res/layout/activity_generalmap.xml" value="0.1796875" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2075" />
         <entry key="app/src/main/res/layout/activity_cat_list.xml" value="0.3729166666666667" />
         <entry key="app/src/main/res/layout/activity_cat_profile.xml" value="0.3729166666666667" />
