@@ -139,10 +139,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else {
             checkNeighborhoods();
             createGeneralNeighborhood();
+
             LatLng bilkent = new LatLng(39.867803, 32.748827);
-            mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus"));
+            //mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BILKENT_MAIN_CAMPUS, 17));
+
         }
     }
 
@@ -204,8 +206,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Populate the neighbourhoodList with the neighbourhoods of the cats in the database
      */
     public void populateNeighbourhoodList(){
-        for (CatData c: actualCatList) {
-            neighbourhoodList.add(c.getNeighbourhood());
+        if (actualCatList!=null) {
+            for (CatData c : actualCatList) {
+                neighbourhoodList.add(c.getNeighbourhood());
+            }
         }
     }
     /**
