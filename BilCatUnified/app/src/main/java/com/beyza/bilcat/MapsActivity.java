@@ -48,6 +48,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<CatData> actualCatList = CatList.list;
     private ArrayList<String> neighbourhoodList = new ArrayList<String>();
 
+    protected boolean pingAdded = false; //add flag to prevent multiple markers from being added
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean permissionDenied = false;
 
@@ -103,7 +105,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng specificNeigh;
         CatData currentCat;
         populateNeighbourhoodList();
-        System.out.println("QWERTY" + neighbourhoodList);
         if(CatList.mapClicked){
             currentCat = CatList.list.get(CatList.currentCat);
             specificNeigh = checkSpecificNeighbourhood(currentCat);
@@ -121,6 +122,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
             enableMyLocation();
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull LatLng latLng) {
+                    if (!pingAdded){
+                        pingAdded = true;
+                        mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .title(currentCat.getName()+"'s Ping")
+                                .snippet("You can drag the marker for precision")
+                                .draggable(true));
+                    }
+                }
+            });
         }
         else {
             checkNeighborhoods();
@@ -399,9 +413,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void addPing(){
-
-    }
+    /**
+     * Check if the location access is enabled, if yes, enable the current GoogleMap object's location access
+     */
     @SuppressLint("MissingPermission")
     private void enableMyLocation(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED||
@@ -414,18 +428,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         PermissionUtils.requestPermission(this,LOCATION_PERMISSION_REQUEST_CODE, "please give access to fine location boss", true);
     }
 
+    /**
+     * Move the map to the user's live location
+     * @return false
+     */
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "You are here!", Toast.LENGTH_SHORT).show();
         //return false so the event is not consumed and default behaviour still occurs
         return false;
     }
 
+    /**
+     * Briefly display the current geographical position of the user's location
+     * @param location
+     */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "This is your current location.", Toast.LENGTH_LONG).show();
     }
-    // [START maps_check_location_permission_result]
+
+    /**
+     * Checks location_permission_result
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -448,7 +476,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // [END_EXCLUDE]
         }
     }
-    // [END maps_check_location_permission_result]
 
     @Override
     protected void onResumeFragments() {
