@@ -23,12 +23,13 @@ public class CatList extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference database;
 
+    public static int currentCat = -1;
+    public static boolean mapClicked = false;
+    public static boolean pingClicked = false;
+
     MyAdapter myAdapter;
     public static ArrayList<CatData> list;
 
-    Button buttonCatMap, buttonCatPing, buttonCatVaccination, buttonCatRecentComments;
-
-    public static CatData[] arr = new CatData[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,17 @@ public class CatList extends AppCompatActivity {
         myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                System.out.println(list.get(position).getName() + position + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                //System.out.println(list.get(position).getName() + position + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 myAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onVaccinationClick(int position) {
+                VaccinationData vaccinationData = list.get(position).getVaccinationData();
+            }
+
+            @Override
+            public void onRecentCommentsClick(int position) {
                 database.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -69,25 +75,26 @@ public class CatList extends AppCompatActivity {
 
                     }
                 });
-            }
-
-            @Override
-            public void onRecentCommentsClick(int position) {
 
             }
 
             @Override
             public void onMapClick(int position) {
-
+                mapClicked = true;
+                pingClicked = false;
+                currentCat = position;
             }
 
             @Override
             public void onPingClick(int position) {
-
+                pingClicked = true;
+                mapClicked = false;
+                currentCat = position;
             }
 
 
         });
+
 
 
         database.addValueEventListener(new ValueEventListener() {
@@ -95,15 +102,15 @@ public class CatList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     CatData catData = dataSnapshot.getValue(CatData.class);
-                    list.add(new CatData(catData.getName(), catData.getNeighbourhood(), catData.getAge()));
-                    if (list != null) {
-                        System.out.println(catData.toString());
-                    }
-                    else {
-                        System.out.println("NULLLLL");
-                    }
+                    VaccinationData vaccinationData = dataSnapshot.child("vaccination").getValue(VaccinationData.class);
+                    VaccinationData vacData = new VaccinationData(vaccinationData.getVac1(),
+                            vaccinationData.getVac2(),
+                            vaccinationData.getVac3(),
+                            vaccinationData.getVac4(),
+                            vaccinationData.getVac5(),
+                            vaccinationData.getVac6());
+                    list.add(new CatData(catData.getName(), catData.getNeighbourhood(), catData.getAge(), vacData));
                 }
-                System.out.println(list.get(1).getName());
                 myAdapter.notifyDataSetChanged();
             }
 
@@ -113,4 +120,6 @@ public class CatList extends AppCompatActivity {
             }
         });
     }
+
+
 }
