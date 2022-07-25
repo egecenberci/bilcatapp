@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onVaccinationClick(int position);
+        void onRecentCommentsClick(int position);
+        void onMapClick(int position);
+        void onPingClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     Context context;
 
@@ -26,7 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.catlistcard, parent, false);
-        return new MyViewHolder(v);
+        return new MyViewHolder(v, mListener);
     }
 
     @Override
@@ -45,13 +60,81 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtCatName, txtCatNighbourhood, txtCatAge;
+        Button buttonCatMap, buttonCatPing, buttonCatVaccination, buttonCatRecentComments;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             txtCatName = itemView.findViewById(R.id.txtCatName);
             txtCatNighbourhood = itemView.findViewById(R.id.txtCatNeighbourhood);
             txtCatAge = itemView.findViewById(R.id.txtCatAge);
+
+            buttonCatMap = itemView.findViewById(R.id.ButtonCatMap);
+            buttonCatPing = itemView.findViewById(R.id.ButtonCatPing);
+            buttonCatVaccination = itemView.findViewById(R.id.ButtonCatVaccination);
+            buttonCatRecentComments = itemView.findViewById(R.id.ButtonCatRecentComments);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
+
+            buttonCatVaccination.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onVaccinationClick(position);
+                        }
+                    }
+                }
+            });
+
+            buttonCatRecentComments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onVaccinationClick(position);
+                        }
+                    }
+                }
+            });
+
+            buttonCatMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onVaccinationClick(position);
+                        }
+                    }
+                }
+            });
+
+            buttonCatPing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onVaccinationClick(position);
+                        }
+                    }
+                }
+            });
+
+
         }
     }
 }

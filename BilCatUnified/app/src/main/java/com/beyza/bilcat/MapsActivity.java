@@ -16,16 +16,24 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import java.util.ArrayList;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-    private DatabaseReference dataBase;
+    private DatabaseReference dataBase= FirebaseDatabase.getInstance().getReference();
     public static String catList;
+    private ArrayList<CatData> actualCatList;
+    private ArrayList<String> neighbourhoodList;
 
     public final static LatLng SA_BUILDING = new LatLng(39.867728811561996, 32.748151063092564);
     public final static LatLng SB_BUILDING = new LatLng(39.868321704800096, 32.748177885183544);
@@ -76,19 +84,58 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        // Add a marker in Sydney and move the camera
+        createGeneralNeighborhood();
         LatLng bilkent = new LatLng(39.867803, 32.748827);
         mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BILKENT_MAIN_CAMPUS,17));
-        createGeneralNeighborhood();
+
     }
 
     /**
      * Checks the neighborhoods of the cats in the database and updates the build boolean values
      */
     public void checkNeighborhoods(){
-        dataBase = FirebaseDatabase.getInstance().getReference();
+        //dataBase.startAt("cat 1");
+        /*
+        //DataSnapshot catsSnap = dataBase.child("cats").get().getResult(); //TASK SI NOT YET COMPLETE ERROR
+        Query catsQuery = dataBase.child("cats");
+        catsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot postSnapshot: catsSnap.getChildren()) {
+                    // TODO: handle the post
+                    Log.d("didItWOrk", postSnapshot.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        dataBase.child("cats").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+            @Override
+            public void onSuccess(DataSnapshot dataSnapshot) {
+                Log.d("plswork", dataSnapshot.getChildren().spliterator());
+            }
+        });*/
+        if (CatList.list != null) {
+            for (CatData c: CatList.list) {
+                actualCatList.add(new CatData(c.getNeighbourhood(),c.getAge(),c.getName()));
+            }
+            //CatList.list.forEach(CatData c;);
+            Log.d("emre's list", CatList.list.toString());
+            Log.d("my list", actualCatList.toString());
+        }
+        if (actualCatList!= null){
+            for (CatData c: actualCatList) {
+                if (c.getNeighbourhood().equals("SA Building"));
+                buildSA = true;
+            }
+        }
+        /*
         dataBase.child("cats").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -97,7 +144,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    Log.d("MYDICK", String.valueOf(task.getResult().getValue()));
                     MapsActivity.catList = String.valueOf(task.getResult().getValue());
                 }
             }
@@ -126,6 +172,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (catList.contains(String.valueOf("Dorm 78")))
                 buildDORM78 = true;
         }
+
+         */
     }
 
     public void createGeneralNeighborhood(){
