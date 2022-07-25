@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayGeneralMap(){
-        //TODO:switch the page
+        // mapClicked and pingClicked set to false to display the GeneralMap
+        CatList.pingClicked=false;
+        CatList.mapClicked=false;
         Intent intent = new Intent(this,MapsActivity.class);
         startActivity(intent);
     }

@@ -27,7 +27,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private DatabaseReference dataBase= FirebaseDatabase.getInstance().getReference();
-    public static String catList;
     private ArrayList<CatData> actualCatList = CatList.list;
     private ArrayList<String> neighbourhoodList = new ArrayList<String>();
 
@@ -80,21 +79,102 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        createGeneralNeighborhood();
-        LatLng bilkent = new LatLng(39.867803, 32.748827);
-        mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus").snippet("Hello boss"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BILKENT_MAIN_CAMPUS,17));
+        LatLng specificNeigh;
+        CatData currentCat;
+        populateNeighbourhoodList();
+        System.out.println("QWERTY" + neighbourhoodList);
+        if(CatList.mapClicked){
+            currentCat = CatList.list.get(CatList.currentCat);
+            specificNeigh = checkSpecificNeighbourhood(currentCat);
+            createGeneralNeighborhood();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(specificNeigh));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(specificNeigh, 17));
+        }
+        else if (CatList.pingClicked){
+            currentCat = CatList.list.get(CatList.currentCat);
+            checkSpecificNeighbourhood(currentCat);
+            specificNeigh = checkSpecificNeighbourhood(currentCat);
+            createGeneralNeighborhood();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(specificNeigh));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(specificNeigh, 17));
+        }
+        else {
+            checkNeighborhoods();
+            createGeneralNeighborhood();
+            LatLng bilkent = new LatLng(39.867803, 32.748827);
+            mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BILKENT_MAIN_CAMPUS, 17));
+        }
     }
 
     /**
-     * Checks the neighborhoods of the cats in the database and updates the build boolean values
+     * Takes CatData object, gets its neighbourhood and changes the build boolean to true, returns the neighbourhood's center point as LatLng object
+     * @param cat CatData object whose neighbourhood will be checked
+     * @return the Latlng of the center of the neighbourhood
+     */
+    public LatLng checkSpecificNeighbourhood(CatData cat){
+        String catNeigh = cat.getNeighbourhood();
+        if (catNeigh.equals("SA Building")){
+            buildSA = true;
+            return SA_BUILDING;
+        }
+        if (catNeigh.equals("SB Building")) {
+            buildSB = true;
+            return SB_BUILDING;
+        }
+        if (catNeigh.equals("B Building")) {
+            buildB = true;
+            return B_BUILDING;
+        }
+        if (catNeigh.equals("G Building")) {
+            buildG = true;
+            return G_BUILDING;
+        }
+        if (catNeigh.equals("A Building")) {
+            buildA = true;
+            return A_BUILDING;
+        }
+        if (catNeigh.equals("MA Building")) {
+            buildMA = true;
+            return MA_BUILDING;
+        }
+        if (catNeigh.equals("T Building")) {
+            buildT = true;
+            return T_BUILDING;
+        }
+        if (catNeigh.equals("FF Building")) {
+            buildFF = true;
+            return FF_BUILDING;
+        }
+        if (catNeigh.equals("Dorm 76")) {
+            buildDORM76 = true;
+            return DORM_76;
+        }
+        if (catNeigh.equals("Dorm 77")) {
+            buildDORM77 = true;
+            return DORM_77;
+        }
+        if (catNeigh.equals("Dorm 78")) {
+            buildDORM78 = true;
+            return DORM_78;
+        }
+        else return new LatLng(0,0);
+    }
+
+    /**
+     * Populate the neighbourhoodList with the neighbourhoods of the cats in the database
+     */
+    public void populateNeighbourhoodList(){
+        for (CatData c: actualCatList) {
+            neighbourhoodList.add(c.getNeighbourhood());
+        }
+    }
+    /**
+     * Checks all the neighborhoods of the cats in the database and updates the build boolean values
      */
     public void checkNeighborhoods(){
         if (actualCatList!= null){
-            for (CatData c: actualCatList) {
-                neighbourhoodList.add(c.getNeighbourhood());
-            }
             if (neighbourhoodList.contains("SA Building"));
                 buildSA = true;
             if (neighbourhoodList.contains("SB Building"))
@@ -124,7 +204,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Builds the existing neighbourhoods on the general map
      */
     public void createGeneralNeighborhood(){
-        checkNeighborhoods();
         if (buildSA) {
             Circle neigh_SA = mMap.addCircle(new CircleOptions()
                     .center(SA_BUILDING)
