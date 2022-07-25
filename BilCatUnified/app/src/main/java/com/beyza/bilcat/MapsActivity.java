@@ -6,28 +6,24 @@ import androidx.fragment.app.FragmentActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnCircleClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private DatabaseReference dataBase= FirebaseDatabase.getInstance().getReference();
@@ -86,28 +82,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         createGeneralNeighborhood();
         LatLng bilkent = new LatLng(39.867803, 32.748827);
-        mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus"));
+        mMap.addMarker(new MarkerOptions().position(bilkent).title("Bilkent Main Campus").snippet("Hello boss"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BILKENT_MAIN_CAMPUS,17));
-
     }
 
     /**
      * Checks the neighborhoods of the cats in the database and updates the build boolean values
      */
     public void checkNeighborhoods(){
-        /*if (CatList.list != null) {
-            for (CatData c: CatList.list) {
-                actualCatList.add(new CatData(c.getNeighbourhood(),c.getAge(),c.getName()));
-            }
-            //CatList.list.forEach(CatData c;);
-            Log.d("emre's list", CatList.list.toString());
-            Log.d("my list", actualCatList.toString());
-        }*/
         if (actualCatList!= null){
             for (CatData c: actualCatList) {
                 neighbourhoodList.add(c.getNeighbourhood());
-                System.out.println(neighbourhoodList.add(c.getNeighbourhood()));
             }
             if (neighbourhoodList.contains("SA Building"));
                 buildSA = true;
@@ -132,138 +118,182 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (neighbourhoodList.contains("Dorm 78"))
                 buildDORM78 = true;
         }
-
-        /*
-        dataBase.child("cats").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    MapsActivity.catList = String.valueOf(task.getResult().getValue());
-                }
-            }
-        });
-        if (catList != null) {
-            if (catList.contains(String.valueOf("SA Building")))
-                buildSA = true;
-            if (catList.contains(String.valueOf("SB Building")))
-                buildSB = true;
-            if (catList.contains(String.valueOf("B Building")))
-                buildB = true;
-            if (catList.contains(String.valueOf("G Building")))
-                buildG = true;
-            if (catList.contains(String.valueOf("A Building")))
-                buildA = true;
-            if (catList.contains(String.valueOf("MA Building")))
-                buildMA = true;
-            if (catList.contains(String.valueOf("T Building")))
-                buildT = true;
-            if (catList.contains(String.valueOf("FF Building")))
-                buildFF = true;
-            if (catList.contains(String.valueOf("Dorm 76")))
-                buildDORM76 = true;
-            if (catList.contains(String.valueOf("Dorm 77")))
-                buildDORM77 = true;
-            if (catList.contains(String.valueOf("Dorm 78")))
-                buildDORM78 = true;
-        }
-
-         */
     }
 
+    /**
+     * Builds the existing neighbourhoods on the general map
+     */
     public void createGeneralNeighborhood(){
         checkNeighborhoods();
         if (buildSA) {
-            Circle Neigh_SA = mMap.addCircle(new CircleOptions()
+            Circle neigh_SA = mMap.addCircle(new CircleOptions()
                     .center(SA_BUILDING)
                     .radius(15)
-                    .strokeColor(Color.RED)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .strokeColor(Color.MAGENTA)
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_SA_M = mMap.addMarker(new MarkerOptions()
+                    .position(SA_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("SA Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("SA Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+            );
+            neigh_SA.setTag(actualCatList.get(neighbourhoodList.indexOf("SA Building")));
         }
         if (buildSB) {
             Circle neigh_SB = mMap.addCircle(new CircleOptions()
                     .center(SB_BUILDING)
                     .radius(15)
                     .strokeColor(Color.BLUE)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_SB_M = mMap.addMarker(new MarkerOptions()
+                    .position(SB_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("SB Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("SB Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            );
+            neigh_SB.setTag(actualCatList.get(neighbourhoodList.indexOf("SB Building")));
         }
         if (buildB){
-        Circle neigh_B = mMap.addCircle(new CircleOptions()
+            Circle neigh_B = mMap.addCircle(new CircleOptions()
                 .center(B_BUILDING)
                 .radius(15)
                 .strokeColor(Color.GREEN)
-                .clickable(true)//retrieve cat's name and building name on click
-        );
+                    .fillColor(Color.argb(50,0,0,0))
+            );
+            Marker neigh_B_M = mMap.addMarker(new MarkerOptions()
+                    .position(B_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("B Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("B Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            );
+            neigh_B.setTag(actualCatList.get(neighbourhoodList.indexOf("B Building")).getName());
         }
         if (buildG) {
             Circle neigh_G = mMap.addCircle(new CircleOptions()
                     .center(G_BUILDING)
                     .radius(15)
                     .strokeColor(Color.CYAN)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_G_M = mMap.addMarker(new MarkerOptions()
+                    .position(G_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("G Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("G Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+            );
+            neigh_G.setTag(actualCatList.get(neighbourhoodList.indexOf("G Building")));
         }
         if (buildA) {
             Circle neigh_A = mMap.addCircle(new CircleOptions()
                     .center(A_BUILDING)
                     .radius(15)
                     .strokeColor(Color.MAGENTA)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_A_M = mMap.addMarker(new MarkerOptions()
+                    .position(A_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("A Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("A Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+            );
+            neigh_A.setTag(actualCatList.get(neighbourhoodList.indexOf("A Building")));
         }
         if (buildMA) {
             Circle neigh_MA = mMap.addCircle(new CircleOptions()
                     .center(MA_BUILDING)
                     .radius(15)
                     .strokeColor(Color.YELLOW)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_MA_M = mMap.addMarker(new MarkerOptions()
+                    .position(MA_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("MA Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("MA Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+            );
+            neigh_MA.setTag(actualCatList.get(neighbourhoodList.indexOf("MA Building")));
         }
         if (buildT) {
             Circle neigh_T = mMap.addCircle(new CircleOptions()
                     .center(T_BUILDING)
                     .radius(15)
-                    .strokeColor(Color.GRAY)
+                    .strokeColor(Color.GREEN)
+                    .fillColor(Color.argb(50,0,0,0))
                     .clickable(true)//retrieve cat's name and building name on click
             );
+            Marker neigh_T_M = mMap.addMarker(new MarkerOptions()
+                    .position(T_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("T Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("T Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            );
+            neigh_T.setTag(actualCatList.get(neighbourhoodList.indexOf("T Building")));
         }
         if (buildFF) {
             Circle neigh_FF = mMap.addCircle(new CircleOptions()
                     .center(FF_BUILDING)
                     .radius(15)
-                    .strokeColor(Color.LTGRAY)
+                    .strokeColor(Color.GREEN)
+                    .fillColor(Color.argb(50,0,0,0))
                     .clickable(true)//retrieve cat's name and building name on click
             );
+            Marker neigh_FF_M = mMap.addMarker(new MarkerOptions()
+                    .position(FF_BUILDING)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("FF Building")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("FF Building")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            );
+            neigh_FF.setTag(actualCatList.get(neighbourhoodList.indexOf("FF Building")));
         }
         if (buildDORM76){
             Circle neigh_DORM76 = mMap.addCircle(new CircleOptions()
                     .center(DORM_76)
                     .radius(15)
-                    .strokeColor(Color.GREEN)
+                    .strokeColor(Color.YELLOW)
+                    .fillColor(Color.argb(50,0,0,0))
                     .clickable(true)//retrieve cat's name and building name on click
             );
+            Marker neigh_DORM76_M = mMap.addMarker(new MarkerOptions()
+                    .position(DORM_76)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("Dorm 76")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("Dorm 76")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+            );
+            neigh_DORM76.setTag(actualCatList.get(neighbourhoodList.indexOf("Dorm 76")));
         }
         if (buildDORM77){
             Circle neigh_DORM77 = mMap.addCircle(new CircleOptions()
                     .center(DORM_77)
                     .radius(15)
                     .strokeColor(Color.CYAN)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_DORM77_M = mMap.addMarker(new MarkerOptions()
+                    .position(DORM_77)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("Dorm 77")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("Dorm 77")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+            );
+            neigh_DORM77.setTag(actualCatList.get(neighbourhoodList.indexOf("Dorm 77")));
         }
         if (buildDORM78){
             Circle neigh_DORM78 = mMap.addCircle(new CircleOptions()
                     .center(DORM_78)
                     .radius(15)
-                    .strokeColor(Color.RED)
-                    .clickable(true)//retrieve cat's name and building name on click
+                    .strokeColor(Color.BLUE)
+                    .fillColor(Color.argb(50,0,0,0))
             );
+            Marker neigh_DORM78_M = mMap.addMarker(new MarkerOptions()
+                    .position(DORM_78)
+                    .title(actualCatList.get(neighbourhoodList.indexOf("Dorm 78")).getName())
+                    .snippet(actualCatList.get(neighbourhoodList.indexOf("Dorm 78")).getNeighbourhood())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+            );
+            neigh_DORM78.setTag(actualCatList.get(neighbourhoodList.indexOf("Dorm 78")));
         }
+
     }
 
     public void createSpecificNeighborhood(){
@@ -277,9 +307,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
-    @Override
-    public void onCircleClick(@NonNull Circle circle) {
-
-    }
 }
