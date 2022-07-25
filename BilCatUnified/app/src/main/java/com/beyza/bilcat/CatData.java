@@ -3,19 +3,21 @@ package com.beyza.bilcat;
 import java.util.ArrayList;
 
 public class CatData {
-    String name, neighbourhood, age;
+    String name, neighbourhood, age, image;
     VaccinationData vaccinationData;
 
     public CatData() {
 
     }
 
-    public CatData(String name, String neighbourhood, String age, VaccinationData vaccinationData) {
+    public CatData(String name, String neighbourhood, String age, String image, VaccinationData vaccinationData) {
         this.name = name;
         this.neighbourhood = neighbourhood;
         this.age = age;
+        this.image = image;
         this.vaccinationData = vaccinationData;
     }
+
 
     public String getName() {
         return name;
@@ -33,7 +35,7 @@ public class CatData {
         return vaccinationData;
     }
 
-    public void setVaccinationData(VaccinationData vaccinationData) {
-        this.vaccinationData = vaccinationData;
+    public String getImage() {
+        return image;
     }
 }

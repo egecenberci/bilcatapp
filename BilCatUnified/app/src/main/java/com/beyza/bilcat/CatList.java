@@ -68,7 +68,7 @@ public class CatList extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             CatData catData = dataSnapshot.getValue(CatData.class);
-                            System.out.println(catData.getAge());
+                            //System.out.println(catData.getAge());
                         }
                         myAdapter.notifyDataSetChanged();
                     }
@@ -116,7 +116,7 @@ public class CatList extends AppCompatActivity {
                             vaccinationData.getVac4(),
                             vaccinationData.getVac5(),
                             vaccinationData.getVac6());
-                    list.add(new CatData(catData.getName(), catData.getNeighbourhood(), catData.getAge(), vacData));
+                    list.add(new CatData(catData.getName(), catData.getNeighbourhood(), catData.getAge(), catData.getImage(), vacData));
                 }
                 myAdapter.notifyDataSetChanged();
             }

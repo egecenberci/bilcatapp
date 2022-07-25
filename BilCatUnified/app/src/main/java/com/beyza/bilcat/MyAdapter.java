@@ -1,14 +1,19 @@
 package com.beyza.bilcat;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -50,6 +55,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.txtCatName.setText(catData.getName());
         holder.txtCatNighbourhood.setText(catData.getNeighbourhood());
         holder.txtCatAge.setText(catData.getAge());
+
+        Glide.with(context).load(catData.getImage()).into(holder.imageViewCatPicture);
     }
 
     @Override
@@ -61,6 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         TextView txtCatName, txtCatNighbourhood, txtCatAge;
         Button buttonCatMap, buttonCatPing, buttonCatVaccination, buttonCatRecentComments;
+        ImageView imageViewCatPicture;
 
         public MyViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -73,6 +81,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             buttonCatPing = itemView.findViewById(R.id.ButtonCatPing);
             buttonCatVaccination = itemView.findViewById(R.id.ButtonCatVaccination);
             buttonCatRecentComments = itemView.findViewById(R.id.ButtonCatRecentComments);
+
+            imageViewCatPicture = itemView.findViewById(R.id.ImageViewCatPicture);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

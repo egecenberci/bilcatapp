@@ -24,11 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
+            android:id="@+id/ImageViewCatPicture"
             android:maxWidth="80dp"
             android:maxHeight="80dp"
             android:minWidth="80dp"
             android:minHeight="80dp"
-            android:src="@drawable/googleg_standard_color_18"/>
+            />
 
 
         <LinearLayout
@@ -124,8 +125,8 @@
                 android:layout_gravity="right"
                 android:layout_marginStart="16dp"
                 android:backgroundTint="#F27777"
-                android:maxWidth="136dp"
-                android:minWidth="136dp"
+                android:maxWidth="140dp"
+                android:minWidth="140dp"
                 android:minLines="2"
                 android:text="Map"
                 android:textColor="@color/black"
@@ -139,8 +140,8 @@
                 android:layout_gravity="right"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#F27777"
-                android:maxWidth="136dp"
-                android:minWidth="136dp"
+                android:maxWidth="140dp"
+                android:minWidth="140dp"
                 android:minLines="2"
                 android:text="Ping"
                 android:textColor="@color/black"
@@ -162,7 +163,7 @@
                 android:layout_gravity="right"
                 android:layout_marginStart="16dp"
                 android:backgroundTint="#F27777"
-                android:maxWidth="136dp"
+                android:maxWidth="140dp"
                 android:minLines="2"
                 android:text="Vaccination"
                 android:textColor="@color/black"
@@ -176,7 +177,7 @@
                 android:layout_gravity="right"
                 android:layout_marginEnd="16dp"
                 android:backgroundTint="#F27777"
-                android:maxWidth="136dp"
+                android:maxWidth="140dp"
                 android:minLines="2"
                 android:text="Recent Comments"
                 android:textColor="@color/black"
