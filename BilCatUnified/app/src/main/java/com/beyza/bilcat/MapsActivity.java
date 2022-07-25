@@ -27,13 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnCircleClickListener {
 
     private GoogleMap mMap;
     private DatabaseReference dataBase= FirebaseDatabase.getInstance().getReference();
     public static String catList;
-    private ArrayList<CatData> actualCatList;
-    private ArrayList<String> neighbourhoodList;
+    private ArrayList<CatData> actualCatList = CatList.list;
+    private ArrayList<String> neighbourhoodList = new ArrayList<String>();
 
     public final static LatLng SA_BUILDING = new LatLng(39.867728811561996, 32.748151063092564);
     public final static LatLng SB_BUILDING = new LatLng(39.868321704800096, 32.748177885183544);
@@ -96,45 +96,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Checks the neighborhoods of the cats in the database and updates the build boolean values
      */
     public void checkNeighborhoods(){
-        //dataBase.startAt("cat 1");
-        /*
-        //DataSnapshot catsSnap = dataBase.child("cats").get().getResult(); //TASK SI NOT YET COMPLETE ERROR
-        Query catsQuery = dataBase.child("cats");
-        catsQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: catsSnap.getChildren()) {
-                    // TODO: handle the post
-                    Log.d("didItWOrk", postSnapshot.getKey());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        dataBase.child("cats").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                Log.d("plswork", dataSnapshot.getChildren().spliterator());
-            }
-        });*/
-        if (CatList.list != null) {
+        /*if (CatList.list != null) {
             for (CatData c: CatList.list) {
                 actualCatList.add(new CatData(c.getNeighbourhood(),c.getAge(),c.getName()));
             }
             //CatList.list.forEach(CatData c;);
             Log.d("emre's list", CatList.list.toString());
             Log.d("my list", actualCatList.toString());
-        }
+        }*/
         if (actualCatList!= null){
             for (CatData c: actualCatList) {
-                if (c.getNeighbourhood().equals("SA Building"));
-                buildSA = true;
+                neighbourhoodList.add(c.getNeighbourhood());
+                System.out.println(neighbourhoodList.add(c.getNeighbourhood()));
             }
+            if (neighbourhoodList.contains("SA Building"));
+                buildSA = true;
+            if (neighbourhoodList.contains("SB Building"))
+                buildSB = true;
+            if (neighbourhoodList.contains("B Building"))
+                buildB = true;
+            if (neighbourhoodList.contains("G Building"))
+                buildG = true;
+            if (neighbourhoodList.contains("A Building"))
+                buildA = true;
+            if (neighbourhoodList.contains("MA Building"))
+                buildMA = true;
+            if (neighbourhoodList.contains("T Building"))
+                buildT = true;
+            if (neighbourhoodList.contains("FF Building"))
+                buildFF = true;
+            if (neighbourhoodList.contains("Dorm 76"))
+                buildDORM76 = true;
+            if (neighbourhoodList.contains("Dorm 77"))
+                buildDORM77 = true;
+            if (neighbourhoodList.contains("Dorm 78"))
+                buildDORM78 = true;
         }
+
         /*
         dataBase.child("cats").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -187,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildSB) {
-            Circle Neigh_SB = mMap.addCircle(new CircleOptions()
+            Circle neigh_SB = mMap.addCircle(new CircleOptions()
                     .center(SB_BUILDING)
                     .radius(15)
                     .strokeColor(Color.BLUE)
@@ -195,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildB){
-        Circle Neigh_B = mMap.addCircle(new CircleOptions()
+        Circle neigh_B = mMap.addCircle(new CircleOptions()
                 .center(B_BUILDING)
                 .radius(15)
                 .strokeColor(Color.GREEN)
@@ -203,7 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         );
         }
         if (buildG) {
-            Circle Neigh_G = mMap.addCircle(new CircleOptions()
+            Circle neigh_G = mMap.addCircle(new CircleOptions()
                     .center(G_BUILDING)
                     .radius(15)
                     .strokeColor(Color.CYAN)
@@ -211,7 +209,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildA) {
-            Circle Neigh_A = mMap.addCircle(new CircleOptions()
+            Circle neigh_A = mMap.addCircle(new CircleOptions()
                     .center(A_BUILDING)
                     .radius(15)
                     .strokeColor(Color.MAGENTA)
@@ -219,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildMA) {
-            Circle Neigh_MA = mMap.addCircle(new CircleOptions()
+            Circle neigh_MA = mMap.addCircle(new CircleOptions()
                     .center(MA_BUILDING)
                     .radius(15)
                     .strokeColor(Color.YELLOW)
@@ -227,7 +225,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildT) {
-            Circle Neigh_T = mMap.addCircle(new CircleOptions()
+            Circle neigh_T = mMap.addCircle(new CircleOptions()
                     .center(T_BUILDING)
                     .radius(15)
                     .strokeColor(Color.GRAY)
@@ -235,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildFF) {
-            Circle Neigh_FF = mMap.addCircle(new CircleOptions()
+            Circle neigh_FF = mMap.addCircle(new CircleOptions()
                     .center(FF_BUILDING)
                     .radius(15)
                     .strokeColor(Color.LTGRAY)
@@ -243,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildDORM76){
-            Circle Neigh_DORM76 = mMap.addCircle(new CircleOptions()
+            Circle neigh_DORM76 = mMap.addCircle(new CircleOptions()
                     .center(DORM_76)
                     .radius(15)
                     .strokeColor(Color.GREEN)
@@ -251,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildDORM77){
-            Circle Neigh_DORM77 = mMap.addCircle(new CircleOptions()
+            Circle neigh_DORM77 = mMap.addCircle(new CircleOptions()
                     .center(DORM_77)
                     .radius(15)
                     .strokeColor(Color.CYAN)
@@ -259,7 +257,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             );
         }
         if (buildDORM78){
-            Circle Neigh_DORM78 = mMap.addCircle(new CircleOptions()
+            Circle neigh_DORM78 = mMap.addCircle(new CircleOptions()
                     .center(DORM_78)
                     .radius(15)
                     .strokeColor(Color.RED)
@@ -280,4 +278,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    @Override
+    public void onCircleClick(@NonNull Circle circle) {
+
+    }
 }
