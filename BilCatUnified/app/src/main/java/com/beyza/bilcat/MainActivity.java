@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayCatList(){
-        //TODO:switch the page
         Intent intent = new Intent(this, CatList.class);
         startActivity(intent);
     }
@@ -87,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
     private void displayProfile(){
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
-    }
-
-    public void displayLogPage(){
-        //TODO:switch the page
     }
 
 }

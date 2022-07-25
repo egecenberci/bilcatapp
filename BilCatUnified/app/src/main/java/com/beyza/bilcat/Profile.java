@@ -22,15 +22,10 @@ public class Profile extends AppCompatActivity {
     FirebaseFirestore fStore;
     String userId;
 
-    //public User user = new User("Dilara Kıymaz","dilarakiymz@gmail.com","02122130462");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        //TODO:This is going to come from the sign in database
-        //updateProfile(user.getNametxt(), user.getEmailtxt(), user.getPhonetxt());
-
         TextView fullName1 = findViewById(R.id.nameSurnameTextView);
         TextView email1 = findViewById(R.id.emailTextView);
         TextView phoneNumber1 = findViewById(R.id.phoneNumberTextView);

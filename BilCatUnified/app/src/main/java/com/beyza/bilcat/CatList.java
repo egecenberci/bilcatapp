@@ -56,6 +56,9 @@ public class CatList extends AppCompatActivity {
             @Override
             public void onVaccinationClick(int position) {
                 VaccinationData vaccinationData = list.get(position).getVaccinationData();
+                currentCat = position;
+                Intent intent = new Intent(CatList.this, VaccinationList.class);
+                startActivity(intent);
             }
 
             @Override
