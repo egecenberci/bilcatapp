@@ -23,7 +23,7 @@ public class CatList extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference database;
 
-    public static int currentCat = -1;
+    public static int currentCat;
     public static boolean mapClicked = false;
     public static boolean pingClicked = false;
 
@@ -83,6 +83,8 @@ public class CatList extends AppCompatActivity {
                 mapClicked = true;
                 pingClicked = false;
                 currentCat = position;
+                Intent intent = new Intent(CatList.this, MapsActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -90,6 +92,8 @@ public class CatList extends AppCompatActivity {
                 pingClicked = true;
                 mapClicked = false;
                 currentCat = position;
+                Intent intent = new Intent(CatList.this, MapsActivity.class);
+                startActivity(intent);
             }
 
 
