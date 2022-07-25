@@ -33,6 +33,9 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -137,6 +140,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 .snippet("You can drag the marker for precision")
                                 .draggable(true));
                     }
+                }
+            });
+            Button finPing = findViewById(R.id.finalize_ping_button);
+            finPing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
                 }
             });
         }
