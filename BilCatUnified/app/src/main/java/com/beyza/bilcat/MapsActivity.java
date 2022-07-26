@@ -49,14 +49,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ActivityCompat.OnRequestPermissionsResultCallback {
 
     private GoogleMap mMap;
-    private DatabaseReference dataBase= FirebaseDatabase.getInstance().getReference();
     private ArrayList<CatData> actualCatList = CatList.list;
     private ArrayList<String> neighbourhoodList = new ArrayList<String>();
 
     private boolean pingAdded = false; //flag to prevent multiple markers from being added
     private EditText commentField;
     private boolean commentButtonClicked = false; // flag to track clicks
-    private MarkerOptions ping = new MarkerOptions(); // marker to be added on click on ping map
+    public static MarkerOptions ping = new MarkerOptions(); // marker to be added on click on ping map
     private String pingComment = ""; // String comment to access in different private classes
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -176,7 +175,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     pingComment = commentField.getText().toString();
                     Toast.makeText(MapsActivity.this,"Ping Added!",Toast.LENGTH_SHORT).show();
                     //Create commentData object with taken input
-                    CommentData commData = new CommentData(pingComment, CatList.list.get(CatList.currentCat),CatList.currentCat);
+                    CommentData commData = new CommentData(pingComment, CatList.list.get(CatList.currentCat),CatList.currentCat, ping.getPosition());
                     //Create DAOComment object and invoke the add method to add the CommentData to the database
                     DAOComment ref = new DAOComment();
                     ref.add(commData);

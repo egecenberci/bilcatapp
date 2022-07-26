@@ -40,7 +40,7 @@ public class CommentList extends AppCompatActivity {
 
         buttonAddComment.setOnClickListener(view ->
         {
-            CommentData commentData = new CommentData(editTextComment.getText().toString(), CatList.list.get(CatList.currentCat), CatList.currentCat);
+            CommentData commentData = new CommentData(editTextComment.getText().toString(), CatList.list.get(CatList.currentCat), CatList.currentCat, MapsActivity.ping.getPosition());
             dao.add(commentData).addOnSuccessListener(suc ->{
                 Toast.makeText(this, "Comment is inserted", Toast.LENGTH_SHORT).show();
             }).addOnFailureListener(er ->{

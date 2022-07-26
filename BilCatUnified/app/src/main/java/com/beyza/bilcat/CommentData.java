@@ -1,5 +1,7 @@
 package com.beyza.bilcat;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class CommentData {
@@ -8,18 +10,21 @@ public class CommentData {
     private CatData catData;
     private FirebaseAuth fAuth;
     private int currentCat;
+    private LatLng pingLocation;
+    private String locationToString;
 
-    public CommentData() {
+    public CommentData(){}
 
-    }
-
-    public CommentData(String txtComment, CatData catData, int currentCat) {
+    public CommentData(String txtComment, CatData catData, int currentCat, LatLng pingLocation) {
         this.txtComment = txtComment;
         this.catData = catData;
         this.currentCat = currentCat;
+        this.pingLocation = pingLocation;
+        this.locationToString = pingLocation.toString();
         fAuth = FirebaseAuth.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         userName = fAuth.getCurrentUser().getEmail();
+
     }
 
     public String getTxtComment() {
@@ -60,5 +65,9 @@ public class CommentData {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public LatLng getPingLocation(){
+        return this.pingLocation;
     }
 }
