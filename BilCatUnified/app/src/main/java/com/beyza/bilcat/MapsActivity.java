@@ -175,6 +175,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 public void onClick(View view) {
                     pingComment = commentField.getText().toString();
                     Toast.makeText(MapsActivity.this,"Ping Added!",Toast.LENGTH_SHORT).show();
+                    //Create commentData object with taken input
+                    CommentData commData = new CommentData(pingComment, CatList.list.get(CatList.currentCat),CatList.currentCat);
+                    //Create DAOComment object and invoke the add method to add the CommentData to the database
+                    DAOComment ref = new DAOComment();
+                    ref.add(commData);
                     Intent intent = new Intent(MapsActivity.this,MainActivity.class);
                     startActivity(intent);
                 }
