@@ -6,33 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CommentList">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/EditTextComment"
-            android:layout_width="250sp"
-            android:layout_height="wrap_content"
-            android:hint="Enter Comment..." />
-
-        <Button
-            android:id="@+id/ButtonAddComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="Add Comment" />
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/TextViewCommentList"
         android:layout_width="wrap_content"

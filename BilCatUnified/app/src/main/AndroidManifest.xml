@@ -21,7 +21,8 @@
         <activity
             android:name=".VaccinationList"
             android:exported="false" />
-
+        <activity android:name=".CommentList"
+            android:exported="false"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

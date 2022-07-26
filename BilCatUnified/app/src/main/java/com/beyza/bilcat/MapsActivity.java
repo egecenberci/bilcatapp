@@ -149,7 +149,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
             /**
-             *
+             *Add Comment button to the ping map, on button click a textfield is supplied
+             * for the user to enter their comment
              */
             Button addCommentButton = findViewById(R.id.add_comment_button);
             addCommentButton.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +167,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
             /**
-             *
+             *Add the finalize ping button and add its listener
+             * Upon button click, the marker's location and the user's comments are saved to the database
              */
             Button finalizePing = findViewById(R.id.finalize_ping_button);
             finalizePing.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     pingComment = commentField.getText().toString();
                     Toast.makeText(MapsActivity.this,"Ping Added!",Toast.LENGTH_SHORT).show();
                     //Create commentData object with taken input
-                    CommentData commData = new CommentData(pingComment, CatList.list.get(CatList.currentCat),CatList.currentCat, ping.getPosition());
+                    CommentData commData = new CommentData(pingComment, CatList.list.get(CatList.currentCat),CatList.currentCat);
                     //Create DAOComment object and invoke the add method to add the CommentData to the database
                     DAOComment ref = new DAOComment();
                     ref.add(commData);

@@ -20,9 +20,6 @@ import java.util.ArrayList;
 
 public class CommentList extends AppCompatActivity {
 
-    EditText editTextComment;
-    Button buttonAddComment;
-
     RecyclerView recyclerView;
     DatabaseReference database;
     CommentAdapter commentAdapter;
@@ -32,21 +29,6 @@ public class CommentList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
-
-        editTextComment = findViewById(R.id.EditTextComment);
-        buttonAddComment = findViewById(R.id.ButtonAddComment);
-
-        DAOComment dao = new DAOComment();
-
-        buttonAddComment.setOnClickListener(view ->
-        {
-            CommentData commentData = new CommentData(editTextComment.getText().toString(), CatList.list.get(CatList.currentCat), CatList.currentCat, MapsActivity.ping.getPosition());
-            dao.add(commentData).addOnSuccessListener(suc ->{
-                Toast.makeText(this, "Comment is inserted", Toast.LENGTH_SHORT).show();
-            }).addOnFailureListener(er ->{
-                Toast.makeText(this, ""+er.getMessage(), Toast.LENGTH_SHORT).show();
-            });
-        });
 
 
         recyclerView = findViewById(R.id.RecViewCommentList);
