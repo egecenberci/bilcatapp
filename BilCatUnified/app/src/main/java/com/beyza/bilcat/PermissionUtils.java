@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class PermissionUtils {
     private static String location_permission_denied = "This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings.";
-    private static String permission_required_toast = "Location permission is required for this demo.";
+    private static String permission_required_toast = "Location permission is required for this app.";
     private static String permission_rationale_location = "Access to the location service is required to demonstrate the \\'my location\\' feature, which shows your current location on the map.";
 
     /**

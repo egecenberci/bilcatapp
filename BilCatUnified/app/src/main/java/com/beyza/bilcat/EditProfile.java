@@ -68,7 +68,7 @@ public class EditProfile extends AppCompatActivity {
                 goMainActivity();
             }
         });
-        Button catlistButton = findViewById(R.id.catListButton2);
+        Button catlistButton = findViewById(R.id.catListButton3);
         catlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

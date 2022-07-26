@@ -43,7 +43,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        Button btnHomePage = findViewById(R.id.homePageButton);
+        Button btnHomePage = findViewById(R.id.homePageButtonProfile);
         btnHomePage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View view) { goEditProfile(); }
         });
-        Button catlistButton = findViewById(R.id.catListButton2);
+        Button catlistButton = findViewById(R.id.catlistButtonProfile);
         catlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        Button mapButton = findViewById(R.id.catListButton2);
+        Button mapButton = findViewById(R.id.map_buttonProfile);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +72,7 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        Button profileButton = findViewById(R.id.profileButton2);
+        Button profileButton = findViewById(R.id.profileButtonProfile);
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
