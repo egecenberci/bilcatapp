@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -36,6 +37,7 @@ import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -51,7 +53,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<CatData> actualCatList = CatList.list;
     private ArrayList<String> neighbourhoodList = new ArrayList<String>();
 
-    protected boolean pingAdded = false; //add flag to prevent multiple markers from being added
+    private boolean pingAdded = false; //flag to prevent multiple markers from being added
+    private EditText commentField;
+    private boolean commentButtonClicked = false; // flag to track clicks
+    private MarkerOptions ping = new MarkerOptions(); // marker to be added on click on ping map
+    private String pingComment = ""; // String comment to access in different private classes
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean permissionDenied = false;
@@ -129,26 +135,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
             enableMyLocation();
+            commentField = findViewById(R.id.comment_field);
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull LatLng latLng) {
                     if (!pingAdded){
                         pingAdded = true;
-                        mMap.addMarker(new MarkerOptions()
-                                .position(latLng)
+                        ping.position(latLng)
                                 .title(currentCat.getName()+"'s Ping")
                                 .snippet("You can drag the marker for precision")
-                                .draggable(true));
+                                .draggable(true);
+                        mMap.addMarker(ping);
                     }
                 }
             });
-            Button finPing = findViewById(R.id.finalize_ping_button);
-            finPing.setOnClickListener(new View.OnClickListener() {
+            /**
+             *
+             */
+            Button addCommentButton = findViewById(R.id.add_comment_button);
+            addCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    if (!commentButtonClicked){
+                        commentField.setVisibility(View.VISIBLE);
+                        commentButtonClicked = true;
+                    }
+                    else{
+                        commentField.setVisibility(View.INVISIBLE);
+                        commentButtonClicked = false;
+                    }
                 }
             });
+            /**
+             *
+             */
+            Button finalizePing = findViewById(R.id.finalize_ping_button);
+            finalizePing.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    pingComment = commentField.getText().toString();
+                    Toast.makeText(MapsActivity.this,"Ping Added!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MapsActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+            commentField.setVisibility(View.INVISIBLE);
         }
         else {
             checkNeighborhoods();

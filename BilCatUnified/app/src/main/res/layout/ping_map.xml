@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <fragment
-        xmlns:map="http://schemas.android.com/apk/res-auto"
+
+    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -20,4 +20,25 @@
         android:layout_marginBottom="5dp"
         android:padding="8dp"
         android:text="@string/finalize_ping" />
+
+    <Button
+        android:id="@+id/add_comment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginBottom="150dp"
+        android:text="Add Comment"/>
+
+    <EditText
+        android:id="@+id/comment_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Add a comment to your ping"
+        android:background="@color/black"
+        android:maxLines="2"
+        android:paddingStart="20dp"
+        android:paddingEnd="0dp" />
 </RelativeLayout>
