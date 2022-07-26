@@ -63,21 +63,9 @@ public class CatList extends AppCompatActivity {
 
             @Override
             public void onRecentCommentsClick(int position) {
-                database.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            CatData catData = dataSnapshot.getValue(CatData.class);
-                            //System.out.println(catData.getAge());
-                        }
-                        myAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                currentCat = position;
+                Intent intent = new Intent(CatList.this, CommentList.class);
+                startActivity(intent);
 
             }
 
