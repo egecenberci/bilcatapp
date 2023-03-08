@@ -1,6 +1,6 @@
 # bilcatapp
 
-The application's final form can be found on the UnifiedBILCAT branch.
+The application's final form can be found on the UnifiedBILCAT branch, inside the BilCatUnified folder.
 
 A more detailed description of my contribution to the project can be found in our final report, in section 3.2.11.
 
